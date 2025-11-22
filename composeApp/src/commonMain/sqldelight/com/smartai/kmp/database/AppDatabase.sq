@@ -1,0 +1,42 @@
+import com.smartai.kmp.domain.model.Role;
+import kotlin.ByteArray;
+import kotlin.collections.List;
+import kotlinx.serialization.descriptors.PrimitiveKind.BOOLEAN;
+
+CREATE TABLE IF NOT EXISTS GroupChat(
+    groupId TEXT UNIQUE PRIMARY KEY NOT NULL,
+    title TEXT NOT NULL,
+    date TEXT NOT NULL,
+    image TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Message(
+    messageId TEXT PRIMARY KEY NOT NULL,
+    chatId TEXT NOT NULL,
+    conent TEXT NOT NULL,
+    images TEXT AS List<ByteArray> NOT NULL,
+    participant TEXT AS Role NOT NULL,
+    isPending INTEGER NOT NULL DEFAULT 0,
+    FOREIGN KEY (chatId) REFERENCES GroupChat(groupId)
+);
+
+getAllGroup:
+SELECT * FROM GroupChat;
+
+getChatByGroupId:
+SELECT * FROM Message WHERE chatId= :chatId;
+
+updateMessageByMessageId:
+UPDATE Message SET isPending = ? WHERE messageId = :messageId;
+
+insertMessage :
+INSERT INTO Message VALUES ?;
+
+insertGroup :
+INSERT INTO GroupChat VALUES ?;
+
+deleteAllMessage:
+DELETE FROM Message WHERE chatId = :chatId;
+
+deleteGroupe:
+DELETE FROM GroupChat WHERE groupId = :groupId;

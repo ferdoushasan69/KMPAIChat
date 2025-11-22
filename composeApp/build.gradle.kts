@@ -7,7 +7,6 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.sqldelight)
-
 }
 
 kotlin {
@@ -35,6 +34,9 @@ kotlin {
             implementation(libs.android.driver)
 
             implementation(libs.ktor.client.android)
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
+
 
             // Splash API
             implementation(libs.androidx.core.splashscreen)
@@ -48,13 +50,14 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
-
-
-
+            implementation(compose.materialIconsExtended)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.koin.compose.viewmodel)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.logging)
             implementation(libs.runtime)
             implementation(libs.kotlinx.datetime)
             implementation(libs.koin.core)
@@ -71,11 +74,11 @@ kotlin {
 }
 
 android {
-    namespace = "com.example.kmpaichat"
+    namespace = "com.smartai.kmp"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.example.kmpaichat"
+        applicationId = "com.smartai.kmp"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
@@ -104,7 +107,7 @@ dependencies {
 sqldelight {
     databases{
         create("AppDatabase"){
-            packageName.set("com.example.kmpaichat")
+            packageName.set("com.smartai.kmp.database")
             generateAsync.set(true)
         }
         linkSqlite.set(true)
